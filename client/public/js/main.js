@@ -23,20 +23,21 @@ function getExercises() {
   $('#all-exercises').html('');
   $.get('/api/v1/exercises', function(data) {
     for (var i = 0; i < data.length; i++) {
-      $('#all-exercises').append('<tr><td>' + data[i].name + '</td><td>' + data[i].description + '</td><td>' + data[i].tags + '</td><td id="edit" class="btn btn-success">' + "Edit" + '</td><td id="delete" class="btn btn-danger">' + "Delete" + '</td></tr>');
+      $('#all-exercises').append('<tr><td>' + data[i].name + '</td><td>' + data[i].description + '</td><td>' + data[i].tags + '</td><td id="edit" class="btn btn-success">' + "Edit" + '</td><td class="btn btn-danger delete-button" id="'+ data[i]._id +'">' + "Delete" + '</td></tr>');
     }
     $('form input').val('');
   });
 }
 
-function deleteButton() {
-  $('#delete').on('click', function() {
-    console.log('test');
+
+  $(document).on('click', '.delete-button', function() {
+    console.log('delete');
     $.ajax ({
-      method: "DELETE",
-      url: '/exercise/' + $(this).attr('id')}).done(function(data) {
-        $('#results').html('Success!');
+      method: 'DELETE',
+      url: '/api/v1/exercise/' + $(this).attr('id')
+    }).done(function(data) {
+        console.log(data);
         getExercises();
-      });
+    });
   });
-}
+

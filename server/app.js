@@ -8,6 +8,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var swig = require('swig');
+var http = require('http');
+var mongoose = require('mongoose');
 
 
 // *** routes *** //
@@ -19,10 +21,24 @@ var exercise = require('./routes/api.js');
 var app = express();
 
 
+// *** config file *** //
+var config = require('./_config');
+
+
 // *** view engine *** //
 var swig = new swig.Swig();
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
+
+
+// *** mongoose *** //
+mongoose.connect(config.mongoURI[app.settings.env], function(err, res) {
+  if(err) {
+    console.log('Error connecting to the database. ' + err);
+  } else {
+    console.log('Connected to Database: ' + config.mongoURI[app.settings.env]);
+  }
+});
 
 
 // *** static directory *** //
@@ -47,6 +63,13 @@ app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
+});
+
+
+// *** server config *** //
+var server   = http.createServer(app);
+server.listen(1337, function() {
+  console.log("Node server running on http://localhost:1337");
 });
 
 

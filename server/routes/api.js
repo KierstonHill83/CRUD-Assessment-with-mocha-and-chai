@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 router.get('/exercises', function(req, res, next) {
   Exercise.find({}, function(err, exercises) {
     if (err) {
-      res.json({'message': err});
+      res.json({'ERROR': err});
     } else {
       res.json(exercises);
     }
@@ -21,7 +21,7 @@ router.get('/exercises', function(req, res, next) {
 router.get('/exercise/:id', function(req, res, next) {
   Exercise.findById(req.params.id, function(err, exercises) {
     if (err) {
-      res.json({'message': err});
+      res.json({'ERROR': err});
     } else {
       res.json(exercises);
     }
@@ -37,9 +37,9 @@ router.post('/exercises', function(req, res, next) {
   });
   newExercise.save(function(err, exercises) {
     if (err) {
-      res.json({'message': err});
+      res.json({'ERROR': err});
     } else {
-      res.json(exercises);
+      res.json({'SUCCESS': exercises});
     }
   });
 });
@@ -51,22 +51,28 @@ router.put('/exercise/:id', function(req, res, next) {
     description: req.body.description,
     tags: req.body.tags
   };
-  Exercise.findByIdAndUpdate(req.params.id, update, function(err, exercises) {
+  Exercise.findById(req.params.id, function(err, exercise) {
     if (err) {
-      res.json({'message': err});
+      res.json({'ERROR': err});
     } else {
-      res.json(exercises);
+      exercise.name = update.name;
+      exercise.description= update.description;
+      exercise.tags = update.tags;
+      exercise.save(function(err) {
+        res.json({'UPDATED': exercise});
+      });
     }
   });
 });
 
 // DELETE single exercise
 router.delete('/exercise/:id', function(req, res, next) {
-  Exercise.findByIdAndRemove(req.params.id, function(err, exercises) {
+  Exercise.findByIdAndRemove(req.params.id, function(err, exercise) {
+    console.log(err);
     if (err) {
-      res.json({'message': err});
+      res.json({'ERROR': err});
     } else {
-      res.json(exercises);
+      res.json({'REMOVED': exercise});
     }
   });
 });

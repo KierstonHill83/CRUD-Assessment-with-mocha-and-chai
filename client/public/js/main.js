@@ -41,14 +41,36 @@ function getExercises() {
     });
   });
 
- $(document).on('click', '.edit-button', function() {
-    console.log('edit');
+  var id;
+
+  $(document).on('click', '.edit-button', function() {
+    id = $(this).attr('id');
+    console.log($(this).children());
+    $('#update-form').show();
+    $.get('/api/v1/exercise/'+id, function(data) {
+      $('#newName').val(data.name);
+      $('#newDescription').val(data.description);
+      $('#newTags').val(data.tags);
+      console.log(data);
+    
+  });
+ 
+  });
+
+  $(document).on('click', '#edit-submit', function() { 
     $.ajax ({
       method: 'PUT',
-      url: '/api/v1/exercise/' + $(this).attr('id')
+      url: '/api/v1/exercise/' + id,
+      data: {
+        name: $('#newName').val(),
+        description: $('#newDescription').val(),
+        tags: $('#newTags').val()
+      }
     }).done(function(data) {
         console.log(data);
         getExercises();
     });
+    $('#update-form').hide();
   });
+  
 

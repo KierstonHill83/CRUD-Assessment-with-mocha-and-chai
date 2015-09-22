@@ -7,6 +7,6 @@ var Exercise = new Schema ({
   tags: [String]
 });
 
-mongoose.connect(process.env.MONGO_URI);
+//mongoose.connect(process.env.MONGO_URI);
 
 module.exports = mongoose.model("exercises", Exercise);

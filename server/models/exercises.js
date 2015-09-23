@@ -9,4 +9,4 @@ var Exercise = new Schema ({
 
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/node-testing');
 
-mongoose.model("exercises", Exercise);
+module.exports = mongoose.model("exercises", Exercise);

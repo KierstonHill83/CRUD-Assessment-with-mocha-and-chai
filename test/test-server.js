@@ -5,8 +5,8 @@ var chaiHttp = require('chai-http');
 var mongoose = require('mongoose');
 
 var server = require('../server/app');
-//var Exercise = require('../models/exercises');
-var Exercise = mongoose.model('exercises');
+var Exercise = require('../server/models/exercises.js');
+// var Exercise = mongoose.model('exercises');
 
 var should = chai.should();
 chai.use(chaiHttp);

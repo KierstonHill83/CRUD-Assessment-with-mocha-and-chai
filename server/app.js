@@ -1,4 +1,7 @@
+// need to require in the Schema
+require('./models/exercises.js');
 // *** main dependencies *** //
+
 var dotenv = require('dotenv');
 dotenv.load();
 var express = require('express');
@@ -10,6 +13,11 @@ var bodyParser = require('body-parser');
 var swig = require('swig');
 var http = require('http');
 var mongoose = require('mongoose');
+
+
+// seed database
+var databaseSeed = require('../seed');
+databaseSeed();
 
 
 // *** routes *** //
@@ -32,7 +40,7 @@ app.set('view engine', 'html');
 
 
 // *** mongoose *** //
-mongoose.connect(config.mongoURI[app.settings.env], function(err, res) {
+mongoose.createConnection(config.mongoURI[app.settings.env], function(err, res) {
   if(err) {
     console.log('Error connecting to the database. ' + err);
   } else {

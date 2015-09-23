@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var Exercise = require('../models/exercises.js');
+var mongoose = require('mongoose');
+var Exercise = mongoose.model('exercises');
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Exercises' });

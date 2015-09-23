@@ -1,4 +1,3 @@
-// maybe change?
 process.env.NODE_ENV = 'test';
 
 var chai = require('chai');
@@ -6,7 +5,8 @@ var chaiHttp = require('chai-http');
 var mongoose = require('mongoose');
 
 var server = require('../server/app');
-var Exercise = require('../server/models/exercises');
+//var Exercise = require('../models/exercises');
+var Exercise = mongoose.model('exercises');
 
 var should = chai.should();
 chai.use(chaiHttp);
